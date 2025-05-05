@@ -1,0 +1,134 @@
+{
+  "ver": "1.0.27",
+  "importer": "image",
+  "imported": true,
+  "uuid": "f58fc5a1-ff5e-4e7b-a72d-945b6b367040",
+  "files": [
+    ".json",
+    ".png"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "f58fc5a1-ff5e-4e7b-a72d-945b6b367040@6c48a",
+      "displayName": "hoa tulip",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "clamp-to-edge",
+        "wrapModeT": "clamp-to-edge",
+        "imageUuidOrDatabaseUri": "f58fc5a1-ff5e-4e7b-a72d-945b6b367040",
+        "isUuid": true,
+        "visible": false,
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "f58fc5a1-ff5e-4e7b-a72d-945b6b367040@f9941",
+      "displayName": "hoa tulip",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": -1,
+        "offsetY": -20.5,
+        "trimX": 206,
+        "trimY": 55,
+        "width": 186,
+        "height": 531,
+        "rawWidth": 600,
+        "rawHeight": 600,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [
+            -93,
+            -265.5,
+            0,
+            93,
+            -265.5,
+            0,
+            -93,
+            265.5,
+            0,
+            93,
+            265.5,
+            0
+          ],
+          "indexes": [
+            0,
+            1,
+            2,
+            2,
+            1,
+            3
+          ],
+          "uv": [
+            206,
+            545,
+            392,
+            545,
+            206,
+            14,
+            392,
+            14
+          ],
+          "nuv": [
+            0.3433333333333333,
+            0.023333333333333334,
+            0.6533333333333333,
+            0.023333333333333334,
+            0.3433333333333333,
+            0.9083333333333333,
+            0.6533333333333333,
+            0.9083333333333333
+          ],
+          "minPos": [
+            -93,
+            -265.5,
+            0
+          ],
+          "maxPos": [
+            93,
+            265.5,
+            0
+          ]
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "f58fc5a1-ff5e-4e7b-a72d-945b6b367040@6c48a",
+        "atlasUuid": "",
+        "trimType": "auto"
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "type": "sprite-frame",
+    "hasAlpha": true,
+    "fixAlphaTransparencyArtifacts": false,
+    "redirect": "f58fc5a1-ff5e-4e7b-a72d-945b6b367040@6c48a"
+  }
+}
