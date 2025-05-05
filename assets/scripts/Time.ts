@@ -52,7 +52,7 @@ export class Time extends Component {
     }
 
     FXTimeProcess() {
-
+        console.log("FXTimeProcess")
         tween(this.timeProcess)
             .to(this.timeNumber, { fillRange: 1 }, {
                 onUpdate: (target: Sprite, ratio: number) => {
@@ -71,13 +71,10 @@ export class Time extends Component {
             })
 
             .call(() => {
-                Gameplay.instance.FXTimeNode()
+                Gameplay.instance.FXNextQuestion()
                 this.Stop()
             })
             .start();
-        this.schedule(() => {
-
-        }, 1)
     }
 
 
@@ -91,9 +88,9 @@ export class Time extends Component {
     }
 
     SetTheme(type) {
-        this.frame.spriteFrame = this.frames[type]
+        this.frame.spriteFrame = this.bgs[type]
         this.soundIcon.spriteFrame = this.soundIcons[type]
-        this.bg.spriteFrame = this.bgs[type]
+        this.bg.spriteFrame = this.frames[type]
         this.title.color = this.colors[type]
     }
 

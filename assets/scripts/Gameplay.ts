@@ -30,7 +30,16 @@ export class Gameplay extends Component {
     listLogoRoundV1: Node[] = []
 
     @property(SpriteFrame)
-    spTrueFalse: SpriteFrame[] = []
+    spTrueFalse0: SpriteFrame[] = []
+
+
+    @property(SpriteFrame)
+    spTrueFalse1: SpriteFrame[] = []
+
+
+    @property(SpriteFrame)
+    spTrueFalse2: SpriteFrame[] = []
+
 
     @property(Sprite)
     boardQuestion: Sprite = null
@@ -180,6 +189,8 @@ export class Gameplay extends Component {
 
         let currentQ = 0
         let sp;
+
+        let boardSp;
         if (this.questionCurrentV1 < 5) {
             currentQ = 0
             Time.instance.timeNumber = 20
@@ -282,13 +293,34 @@ export class Gameplay extends Component {
 
         if (this.isAnswer == true) return
         this.isAnswer = true
+        let question = this.V1[this.questionCurrentV1 - 1]
+
+
+        let spTrue;
+        let spFalse;
+
+        if (question.type == 0) {
+            spTrue = this.spTrueFalse0[0]
+            spFalse = this.spTrueFalse0[1]
+        }
+        else {
+            if (question.type == 1) {
+                spTrue = this.spTrueFalse1[0]
+                spFalse = this.spTrueFalse1[1]
+            }
+            else {
+                spTrue = this.spTrueFalse2[0]
+                spFalse = this.spTrueFalse2[1]
+            }
+        }
+
 
         if (itemTarget.answer.isTrue == false) {
-            itemTarget.bg.spriteFrame = this.spTrueFalse[1]
+            itemTarget.bg.spriteFrame = spFalse
         }
         this.listItem.forEach(item => {
             if (item.answer.isTrue == true) {
-                item.bg.spriteFrame = this.spTrueFalse[0]
+                item.bg.spriteFrame = spTrue
             }
         })
         Time.instance.Stop()
@@ -299,10 +331,7 @@ export class Gameplay extends Component {
     }
 
     FXNextQuestion() {
-        this.scheduleOnce(() => {
-            this.isAnswer = false
-            Time.instance.RunTime()
-        })
+
         if (this.questionCurrentV1 == 5) {
             this.stepV1 = 1
 
@@ -321,8 +350,12 @@ export class Gameplay extends Component {
     }
 
     NextQuestion() {
-        Time.instance.timeNumber = 20
+        Time.instance.timeNumber = 5
         this.InitQuetionV1()
+        this.scheduleOnce(() => {
+            this.isAnswer = false
+            Time.instance.RunTime()
+        })
 
 
     }
@@ -384,7 +417,9 @@ export class Gameplay extends Component {
 
     SetIndex() {
         let list = this.node.getComponentsInChildren(ItemQuestion)
+        console.log(list + " 2233r232r323r")
         list.forEach(e => {
+
             e.indexSP.spriteFrame = this.indexs[this.stepV1]
         })
 
