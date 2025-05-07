@@ -61,6 +61,12 @@ export class Gameplay extends Component {
     @property(SpriteFrame)
     boards: SpriteFrame[] = []
 
+
+    @property(Node)
+    roundV2: Node = null;
+
+
+
     stepV1 = 0
 
     isAnswer = false
@@ -331,7 +337,7 @@ export class Gameplay extends Component {
     }
 
     FXNextQuestion() {
-
+        console.log(this.questionCurrentV1)
         if (this.questionCurrentV1 == 5) {
             this.stepV1 = 1
 
@@ -344,7 +350,12 @@ export class Gameplay extends Component {
                 this.FXShowLogoRoundV2()
             }
             else {
-                this.NextQuestion()
+                if (this.questionCurrentV1 == 12) {
+                    this.FxChungKet()
+                } else {
+                    this.NextQuestion()
+                }
+
             }
         }
     }
@@ -417,7 +428,6 @@ export class Gameplay extends Component {
 
     SetIndex() {
         let list = this.node.getComponentsInChildren(ItemQuestion)
-        console.log(list + " 2233r232r323r")
         list.forEach(e => {
 
             e.indexSP.spriteFrame = this.indexs[this.stepV1]
@@ -425,6 +435,38 @@ export class Gameplay extends Component {
 
         this.boardQuestion.node.parent.getComponent(Sprite).spriteFrame = this.boards[this.stepV1]
     }
+
+    FxChungKet() {
+        this.icon?.destroy()
+        this.Quests.forEach(q => {
+            q.active = false
+        })
+        tween(this.timeNode)
+            .to(0.5, { scale: v3(0, 0, 0) })
+            .call(() => {
+                this.FXRoundV2()
+            })
+            .start()
+    }
+
+    FXRoundV2() {
+        this.roundNode.scale = v3(0.5, 0.5, 0.5)
+        tween(this.roundV2).to(0.5, { scale: v3(1, 1, 1) }, { easing: "backOut" })
+            .start()
+    }
+
+
+    BtnStartRound2() {
+        tween(this.roundV2).to(0.5, { scale: v3(0.5, 0.5, 0.5) }, { easing: "backIn" })
+            .call(() => {
+                this.roundV2.active = false
+                this.FXBoardInf()
+                Time.instance.SetTheme(3)
+            })
+            .start()
+    }
+
+
 
 
 }
