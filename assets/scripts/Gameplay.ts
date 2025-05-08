@@ -46,6 +46,8 @@ export class Gameplay extends Component {
 
     @property(DataGame)
     dataQuestNormal: DataGame = null
+    @property(DataGame)
+    dataQuestFinal: DataGame = null
 
 
     @property(SpriteFrame)
@@ -178,6 +180,10 @@ export class Gameplay extends Component {
         this.dataQuestNormal.v1 = this.shuffleNodes(this.dataQuestNormal.v1)
         this.V1 = this.dataQuestNormal.v1.slice(0, 12);
 
+        this.dataQuestFinal.v1 = this.shuffleNodes(this.dataQuestFinal.v1)
+
+        this.V1.push(...this.dataQuestFinal.v1.slice(0, 5))
+
         console.log(this.V1)
     }
 
@@ -185,8 +191,8 @@ export class Gameplay extends Component {
     listItem: ItemQuestion[] = []
 
     InitQuetionV1() {
-        if (this.questionCurrentV1 >= 12) return
         let question = this.V1[this.questionCurrentV1]
+        console.log(question)
         if (question.type == 2) {
             this.boardQuestion.spriteFrame = question.bgQuestion
             this.boardQuestion.node.getComponent(UITransform).setContentSize(Gameplay.resizeImage(470, 470, question.bgQuestion))
@@ -208,8 +214,16 @@ export class Gameplay extends Component {
                 Time.instance.timeNumber = 15
             }
             else {
-                currentQ = 2
-                Time.instance.timeNumber = 10
+                if (this.questionCurrentV1 < 12) {
+                    currentQ = 2
+                    Time.instance.timeNumber = 10
+                }
+                else {
+                    currentQ = 3
+                    Time.instance.timeNumber = 20
+
+                }
+
             }
         }
         if (question.type == 0) {
@@ -361,7 +375,7 @@ export class Gameplay extends Component {
     }
 
     NextQuestion() {
-        Time.instance.timeNumber = 5
+        // Time.instance.timeNumber = 5
         this.InitQuetionV1()
         this.scheduleOnce(() => {
             this.isAnswer = false
@@ -437,10 +451,13 @@ export class Gameplay extends Component {
     }
 
     FxChungKet() {
+        this.stepV1 = 3
+        this.SetIndex()
         this.icon?.destroy()
         this.Quests.forEach(q => {
             q.active = false
         })
+
         tween(this.timeNode)
             .to(0.5, { scale: v3(0, 0, 0) })
             .call(() => {
@@ -460,8 +477,9 @@ export class Gameplay extends Component {
         tween(this.roundV2).to(0.5, { scale: v3(0.5, 0.5, 0.5) }, { easing: "backIn" })
             .call(() => {
                 this.roundV2.active = false
-                this.FXBoardInf()
+                //this.FXBoardInf()
                 Time.instance.SetTheme(3)
+                this.FXTimeNode()
             })
             .start()
     }
