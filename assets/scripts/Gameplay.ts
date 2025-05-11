@@ -1,4 +1,4 @@
-import { _decorator, Camera, Component, instantiate, Node, Size, Sprite, SpriteFrame, tween, UIOpacity, UITransform, v3 } from 'cc';
+import { _decorator, Camera, Component, instantiate, Node, randomRangeInt, Size, Sprite, SpriteFrame, tween, UIOpacity, UITransform, v3 } from 'cc';
 import { SoundManager } from './SoundManager';
 import { DataGame } from './DataGame';
 import { Question } from './Question';
@@ -66,6 +66,9 @@ export class Gameplay extends Component {
 
     @property(Node)
     roundV2: Node = null;
+
+    @property(Node)
+    bell: Node = null
 
 
 
@@ -191,6 +194,9 @@ export class Gameplay extends Component {
     listItem: ItemQuestion[] = []
 
     InitQuetionV1() {
+        if (this.questionCurrentV1 == 17) {
+            return
+        }
         let question = this.V1[this.questionCurrentV1]
         console.log(question)
         if (question.type == 2) {
@@ -206,7 +212,6 @@ export class Gameplay extends Component {
         if (this.questionCurrentV1 < 5) {
             currentQ = 0
             Time.instance.timeNumber = 20
-
         }
         else {
             if (this.questionCurrentV1 < 9) {
@@ -378,6 +383,14 @@ export class Gameplay extends Component {
         // Time.instance.timeNumber = 5
         this.InitQuetionV1()
         this.scheduleOnce(() => {
+            this.isBell = false
+            this.isBot = false
+            if (this.stepV1 == 3) {
+                Time.instance.timeNumber = 20
+                this.bell.active = true
+
+                this.scheduleOnce(this.ScheduleBot, randomRangeInt(10, 14))
+            }
             this.isAnswer = false
             Time.instance.RunTime()
         })
@@ -482,6 +495,109 @@ export class Gameplay extends Component {
                 this.FXTimeNode()
             })
             .start()
+    }
+
+    isBell = false
+    isBot = false
+    BtnBell() {
+        if (this.isBot == true) return
+        this.isBell = true
+
+        this.scheduleOnce(this.BotPlay, 3)
+
+    }
+
+    OnClickItemFinal(itemTarget: ItemQuestion) {
+        if (this.isBell == false) return
+        if (this.isAnswer == true) return
+        this.isAnswer = true
+        let question = this.V1[this.questionCurrentV1 - 1]
+
+
+        let spTrue;
+        let spFalse;
+
+        if (question.type == 0) {
+            spTrue = this.spTrueFalse0[0]
+            spFalse = this.spTrueFalse0[1]
+        }
+        else {
+            if (question.type == 1) {
+                spTrue = this.spTrueFalse1[0]
+                spFalse = this.spTrueFalse1[1]
+            }
+            else {
+                spTrue = this.spTrueFalse2[0]
+                spFalse = this.spTrueFalse2[1]
+            }
+        }
+
+
+        if (itemTarget.answer.isTrue == false) {
+            itemTarget.bg.spriteFrame = spFalse
+
+            this.scheduleOnce(() => {
+                itemTarget.bg.spriteFrame = itemTarget.spriteDefault
+                // this.BotPlay()
+            }, 2)
+        }
+        else {
+            this.unschedule(this.ScheduleBot)
+            itemTarget.bg.spriteFrame = spTrue
+            this.bell.active = false
+            Time.instance.Stop()
+            this.scheduleOnce(() => {
+                this.NextQuestion()
+            }, 2)
+        }
+    }
+
+    ScheduleBot() {
+        this.BotPlay()
+    }
+
+    BotPlay() {
+        this.unschedule(this.ScheduleBot)
+        // Time.instance.Stop()
+        // Time.instance.timeNumber
+        // Time.instance.RunTime()
+        this.isBell = true
+        this.isBot = true
+        this.isAnswer = true
+        let question = this.V1[this.questionCurrentV1 - 1]
+
+
+        let spTrue;
+        let spFalse;
+
+        if (question.type == 0) {
+            spTrue = this.spTrueFalse0[0]
+            spFalse = this.spTrueFalse0[1]
+        }
+        else {
+            if (question.type == 1) {
+                spTrue = this.spTrueFalse1[0]
+                spFalse = this.spTrueFalse1[1]
+            }
+            else {
+                spTrue = this.spTrueFalse2[0]
+                spFalse = this.spTrueFalse2[1]
+            }
+        }
+        this.scheduleOnce(() => {
+            Time.instance.Stop()
+            // Time.instance.timeNumber
+            // Time.instance.RunTime()
+            this.listItem.forEach(item => {
+                if (item.answer.isTrue == true) {
+                    item.bg.spriteFrame = spTrue
+                    this.bell.active = false
+                    this.scheduleOnce(() => {
+                        this.NextQuestion()
+                    }, 2)
+                }
+            })
+        }, randomRangeInt(3, 5))
     }
 
 

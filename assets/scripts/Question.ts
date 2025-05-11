@@ -1,4 +1,4 @@
-import { _decorator, CCInteger, CCString, Component, Node, SpriteFrame } from 'cc';
+import { _decorator, AudioClip, CCInteger, CCString, Component, Node, SpriteFrame } from 'cc';
 import { Answer } from './Answer';
 const { ccclass, property } = _decorator;
 
@@ -17,6 +17,9 @@ export class Question {
 
     @property(Answer)
     answerFalse: Answer[] = []
+
+    @property(AudioClip)
+    clip: AudioClip = null
 }
 
 

@@ -71,8 +71,16 @@ export class Time extends Component {
             })
 
             .call(() => {
+                // if (Gameplay.instance.stepV1 < 3) {
+
+                // }
+                // else {
+                //     Gameplay.instance.BotPlay()
+                // }
+
                 Gameplay.instance.FXNextQuestion()
                 this.Stop()
+
             })
             .start();
     }
@@ -93,10 +101,6 @@ export class Time extends Component {
         this.bg.spriteFrame = this.frames[type]
         this.title.color = this.colors[type]
     }
-
-
-
-
 }
 
 

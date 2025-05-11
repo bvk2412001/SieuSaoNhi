@@ -25,7 +25,9 @@ export class ItemQuestion extends Component {
 
 
     answer: Answer
+    spriteDefault
     SetUp(answer: Answer, spriteFrameDefault: SpriteFrame) {
+        this.spriteDefault = spriteFrameDefault
         this.answer = answer
         this.bg.spriteFrame = spriteFrameDefault
 
@@ -40,7 +42,11 @@ export class ItemQuestion extends Component {
     }
 
     OnClick() {
-        Gameplay.instance.OnClickItems(this)
+        if (Gameplay.instance.stepV1 < 3)
+            Gameplay.instance.OnClickItems(this)
+        else {
+            Gameplay.instance.OnClickItemFinal(this)
+        }
     }
 }
 

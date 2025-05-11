@@ -1,4 +1,4 @@
-import { _decorator, CCString, Component, Node, SpriteFrame } from 'cc';
+import { _decorator, AudioClip, CCString, Component, Node, SpriteFrame } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Answer')
@@ -8,7 +8,8 @@ export class Answer {
     @property(SpriteFrame)
     bg: SpriteFrame = null
 
-
+    @property(AudioClip)
+    clip: AudioClip = null
     isTrue = false
 }
 
