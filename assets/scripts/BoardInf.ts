@@ -24,6 +24,7 @@ export class BoardInf extends Component {
     protected start(): void {
         let name = Gameplay.getQueryParam("name")
         this.nameUser.string = name
+        Gameplay.instance.nameUser.string = name
 
         let sex = Gameplay.getQueryParam("sex")
         if (sex == "0") {
@@ -49,6 +50,7 @@ export class BoardInf extends Component {
         else {
             this.bgNameFalse.active = false
             this.bgNameTrue.active = true
+            Gameplay.instance.nameUser.string = this.nameUser.string
         }
     }
 

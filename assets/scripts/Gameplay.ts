@@ -1,4 +1,4 @@
-import { _decorator, Camera, Component, instantiate, Node, randomRangeInt, Size, Sprite, SpriteFrame, tween, UIOpacity, UITransform, v3 } from 'cc';
+import { _decorator, Camera, Component, instantiate, Label, Node, randomRangeInt, Size, Sprite, SpriteFrame, tween, UIOpacity, UITransform, v3 } from 'cc';
 import { SoundManager } from './SoundManager';
 import { DataGame } from './DataGame';
 import { Question } from './Question';
@@ -70,6 +70,20 @@ export class Gameplay extends Component {
     @property(Node)
     bell: Node = null
 
+    @property(Label)
+    nameUser: Label
+
+    @property(Node)
+    avatars: Node = null
+
+    @property(Label)
+    scoreUser: Label = null
+
+    @property(Label)
+    scoreBot1: Label = null
+
+    @property(Label)
+    scoreBot2: Label = null
 
 
     stepV1 = 0
@@ -133,6 +147,7 @@ export class Gameplay extends Component {
             .delay(1)
             .call(() => {
                 this.FXShowLogoRoundV1()
+
             })
             .start()
     }
@@ -167,6 +182,7 @@ export class Gameplay extends Component {
                         this.timeNode.active = true
                         this.roundV1.getComponent(UIOpacity).opacity = 0
                         this.FXTimeNode()
+                        this.avatars.active = true
                     })
                     .start()
             }
@@ -314,6 +330,9 @@ export class Gameplay extends Component {
         return new Size(newW, newH);
     }
 
+    score = 0
+    scoreBot1n = 0
+    scoreBot2n = 0
     OnClickItems(itemTarget: ItemQuestion) {
 
         if (this.isAnswer == true) return
@@ -338,10 +357,57 @@ export class Gameplay extends Component {
                 spFalse = this.spTrueFalse2[1]
             }
         }
-
+        let scoreChange
 
         if (itemTarget.answer.isTrue == false) {
             itemTarget.bg.spriteFrame = spFalse
+
+
+            if (this.stepV1 == 0) {
+                scoreChange = 10
+            }
+            else {
+                if (this.stepV1 == 1) {
+                    scoreChange = 15
+                }
+                else {
+                    if (this.stepV1 == 2) {
+                        scoreChange = 20
+                    }
+                }
+            }
+
+            if (this.questionCurrentV1 == 11) {
+                if (this.score == 0) {
+                    this.scoreBot1n += scoreChange
+
+                    this.scoreBot2n += scoreChange
+                    this.scoreBot1.string = this.scoreBot1n.toString()
+                    this.scoreBot2.string = this.scoreBot2n.toString()
+                }
+            }
+        }
+        else {
+            if (this.stepV1 == 0) {
+                scoreChange = 10
+            }
+            else {
+                if (this.stepV1 == 1) {
+                    scoreChange = 15
+                }
+                else {
+                    if (this.stepV1 == 2) {
+                        scoreChange = 20
+                    }
+                }
+            }
+
+            this.score += scoreChange
+            this.scoreBot1n += randomRangeInt(0, 2) == 0 ? 0 : scoreChange
+            this.scoreUser.string = this.score.toString()
+            this.scoreBot2n += randomRangeInt(0, 2) == 0 ? 0 : scoreChange
+            this.scoreBot1.string = this.scoreBot1n.toString()
+            this.scoreBot2.string = this.scoreBot2n.toString()
         }
         this.listItem.forEach(item => {
             if (item.answer.isTrue == true) {
@@ -464,6 +530,7 @@ export class Gameplay extends Component {
     }
 
     FxChungKet() {
+        this.avatars.active = false
         this.stepV1 = 3
         this.SetIndex()
         this.icon?.destroy()
@@ -489,6 +556,7 @@ export class Gameplay extends Component {
     BtnStartRound2() {
         tween(this.roundV2).to(0.5, { scale: v3(0.5, 0.5, 0.5) }, { easing: "backIn" })
             .call(() => {
+                this.avatars.active = true
                 this.roundV2.active = false
                 //this.FXBoardInf()
                 Time.instance.SetTheme(3)
